@@ -1,0 +1,7 @@
+{
+  "compilerOptions": { "strict": true, "lib": ["deno.window", "dom", "dom.iterable", "esnext"] },
+  "fmt": {
+    "lineWidth": 100,
+    "exclude": ["package-lock.json", "tests/fixtures/reference-2026-09.csv"]
+  }
+}

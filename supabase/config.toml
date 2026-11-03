@@ -1,0 +1,6 @@
+project_id = "field-service-evaluation"
+
+[functions.payroll-export]
+# The handler validates the token through Supabase Auth before calling the RPC.
+# This supports modern signing keys without depending on the legacy gateway verifier.
+verify_jwt = false

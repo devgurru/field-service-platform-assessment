@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Payroll Export Evaluation API",
+    "version": "1.0.0",
+    "description": "Original read-only evaluation API using synthetic payroll rules. Not a production payroll importer contract.",
+    "license": {
+      "name": "Technical evaluation only",
+      "url": "https://github.com/devgurru/field-service-platform-assessment/blob/main/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:54321/functions/v1",
+      "description": "Separate local Supabase evaluation project"
+    }
+  ],
+  "tags": [{ "name": "Payroll", "description": "Caller-scoped read-only payroll export" }],
+  "paths": {
+    "/payroll-export": {
+      "post": {
+        "operationId": "exportPayroll",
+        "tags": ["Payroll"],
+        "summary": "Export approved employee payroll for an earning month",
+        "description": "Validates the caller with Supabase Auth. The database requires a current admin or payroll membership for the requested organization. Does not accept a caller-supplied role. Read-only, safe to retry; no export job or payroll mutation is created. The earning month selects rows; booking months remain unchanged. Maximum 1000 source rows; oversized or invalid data fails without a partial file. Unknown body properties are rejected. Requests are limited to 4096 bytes. Browser origins must be allowlisted.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "apikey",
+            "required": false,
+            "description": "Evaluation project's public anon/publishable key when required by its Supabase gateway. Never a service-role key.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ExportRequest" },
+              "example": {
+                "organization_id": "20000000-0000-0000-0000-000000000001",
+                "earning_month": "2026-09"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "UTF-8 semicolon-separated CSV, comma decimals, CRLF and terminal newline, no BOM. Sorted by employee number. Deduction magnitudes become negative amounts; signed bonuses are preserved. No approved rows produces a header-only file.",
+            "headers": {
+              "Cache-Control": { "schema": { "type": "string", "enum": ["no-store"] } },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string",
+                  "example": "attachment; filename=\"payroll-2026-09.csv\""
+                }
+              }
+            },
+            "content": {
+              "text/csv": {
+                "schema": { "type": "string" },
+                "example": "employee_no;earning_month;booking_month;wage_eur;compensation_eur;net_deduction_eur;bonus_eur\r\nE-101;2026-09;2026-10;3200,00;175,00;-75,00;-25,00\r\n"
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/InvalidRequest" },
+          "401": {
+            "description": "Missing, malformed, expired or invalid caller token.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "unauthorized" }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller has no current authorized organization membership, or browser origin is not allowlisted.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "forbidden" }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not supported. Allow: POST, OPTIONS.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "method_not_allowed" }
+              }
+            }
+          },
+          "413": {
+            "description": "Request body exceeds 4096 bytes.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "body_too_large" }
+              }
+            }
+          },
+          "415": {
+            "description": "Content-Type must be application/json.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "json_required" }
+              }
+            }
+          },
+          "422": {
+            "description": "Source data is invalid or exceeds the supported export size. No partial file is returned.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "invalid_export_data" }
+              }
+            }
+          },
+          "503": {
+            "description": "Auth, database or configuration unavailable. Retry after resolving availability; internal details are not returned.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "temporarily_unavailable" }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "operationId": "preflightPayrollExport",
+        "tags": ["Payroll"],
+        "summary": "Browser CORS preflight",
+        "security": [],
+        "description": "An allowlisted browser origin receives a preflight response without authentication or data access. Untrusted origins receive 403.",
+        "responses": {
+          "204": {
+            "description": "Preflight accepted. Allows POST and OPTIONS and authorization/apikey/content-type/x-client-info headers."
+          },
+          "403": { "description": "Origin not allowed." }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "A signed-in evaluation user's Supabase access token, verified with Auth. Membership is checked separately in the database."
+      }
+    },
+    "schemas": {
+      "ExportRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["organization_id", "earning_month"],
+        "properties": {
+          "organization_id": { "type": "string", "format": "uuid" },
+          "earning_month": {
+            "type": "string",
+            "pattern": "^20[0-9]{2}-(0[1-9]|1[0-2])$",
+            "example": "2026-09"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Stable machine-readable code; no personal data or raw upstream message."
+          }
+        }
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "Malformed JSON or invalid/unknown request fields.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "invalid_request" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+employee_no;earning_month;booking_month;wage_eur;compensation_eur;net_deduction_eur;bonus_eur
+E-101;2026-09;2026-10;3200,00;175,00;-75,00;-25,00
+E-102;2026-09;2026-10;475,00;0,00;0,00;0,00
+E-103;2026-09;2026-11;2100,00;0,00;-20,00;100,00

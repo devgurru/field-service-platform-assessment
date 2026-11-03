@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+.DS_Store
+/AGENTS.md
+*.tsbuildinfo
+supabase/.temp/
+supabase/.branches/
+.postman/
+postman/.state/
+coverage/
+playwright-report/
+test-results/
