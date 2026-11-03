@@ -75,6 +75,7 @@ export const roles = ["payroll", "admin", "dispatcher", "technician"] as const;
 export type Role = typeof roles[number];
 export const canExportPayroll = (role: Role) => role === "payroll" || role === "admin";
 
+export const estimateRateUsd = 20;
 export const moduleEstimates = [
   {
     number: "01",

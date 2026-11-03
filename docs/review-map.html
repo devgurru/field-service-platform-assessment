@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Platform boundaries and illustrative module estimates</title>
+    <title>Platform boundaries and module budget estimates</title>
     <style>
     :root {
       font-family: var(--font-sans,system-ui);
@@ -226,7 +226,7 @@
       <p
         class="footnote">Sales CRM coordinates through shared contracts. The legacy ERP mirror stays read-only. The implemented sample is payroll export and its permissions.</p>
     </section>
-    <section class="panel" aria-label="Illustrative module effort and pricing">
+    <section class="panel" aria-label="Planning effort and USD budget">
       <h2>Module effort envelope</h2>
       <p>Ranges include architecture, implementation, review and verification. Final fixed prices require accepted specifications.</p>
       <div
@@ -246,19 +246,19 @@
         <div class="axis"><span>0</span><span>300</span><span>600 h</span></div>
       </div>
       <div
-        class="rate"><label for="rate">Illustrative blended rate</label><input id="rate" type="range" min="30" max="100" step="5" value="50"><output id="rate-value" for="rate">€50 / h</output></div>
+        class="rate"><label for="rate">Rate scenario (USD)</label><input id="rate" type="range" min="10" max="100" step="5" value="20"><output id="rate-value" for="rate">$20 / h</output></div>
       <div class="totals">
         <div><strong>1,300–1,900 h</strong><small>Modules 1–5 · total team effort</small></div>
-        <div><strong id="price">€65,000–€95,000</strong><small>Illustrative price · not an agency offer</small></div>
+        <div><strong id="price">$26,000–$38,000</strong><small>USD budget · fixed prices follow specs</small></div>
       </div>
       <p
-        class="note">Planning assumption: architect 10–12 h/week + two developers 32–36 h/week each. Named staffing and availability require confirmation. Production-app access and references are separate proposal requirements.</p>
+        class="note">Default rate: supplied USD $20/hour. Planning assumption: architect 10–12 h/week + two developers 32–36 h/week each. Named staffing and availability require confirmation. Production-app access and references are separate proposal requirements.</p>
     </section>
     <script>
     const rate = document.getElementById("rate");
-    const format = new Intl.NumberFormat("en-IE", {
+    const format = new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: "USD",
       maximumFractionDigits: 0,
     });
     rate.addEventListener("input", () => {

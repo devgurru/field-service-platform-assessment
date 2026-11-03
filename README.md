@@ -10,6 +10,9 @@ and regression tests. All identifiers, organizations, employees and amounts are 
 · **[Read the technical assessment](docs/assessment.md)** ·
 **[See module estimates](docs/estimates.md)**
 
+Planning basis: **USD $20/hour**, with **1,300–1,900 team hours** and a **$26,000–$38,000** budget
+for modules 1–5. Final fixed prices follow the detailed module specifications.
+
 This is newly written sample code, not an extract from a production application. Existing client
 repositories, source history, credentials, schemas, business data and proprietary assets are not
 part of this repository. The demo CSV illustrates an acceptance-testing approach; the actual payroll

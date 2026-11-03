@@ -5,22 +5,22 @@ acceptance specifications. They are not fixed-price offers. Hours include the ar
 effort, implementation by the developers, tests, review, integration coordination, documentation and
 acceptance support; do not add architect hours again.
 
-Price examples use an **illustrative blended rate of €50/hour** for the whole team. This is a
-modeling assumption, not an approved agency rate. Final per-module fixed prices follow written
-specifications and agreed acceptance criteria. Taxes and third-party service costs are excluded.
+Budget ranges use the **supplied planning rate of USD $20/hour**, applied to total team hours. Final
+per-module fixed prices follow written specifications and agreed acceptance criteria. Taxes and
+third-party service costs are excluded.
 
-| Module    | Scope                                                                                                     |      Team hours | Illustrative price at €50/h |
-| --------- | --------------------------------------------------------------------------------------------------------- | --------------: | --------------------------: |
-| 1         | Existing payroll exporter: approximately 11 specified defects, golden-file regression and release support |          80–120 |               €4,000–€6,000 |
-| 2         | Shared model, ownership contracts, migrations, legacy mappings and access model                           |         200–300 |             €10,000–€15,000 |
-| 3         | Quote/order lifecycle, positions, revisions, conversion and agreed documents                              |         260–400 |             €13,000–€20,000 |
-| 4         | Dispatch/planning, tours, assignment conflicts, job completion, extra work and photos                     |         360–520 |             €18,000–€26,000 |
-| 5         | Tour billing preparation, invoice review, dunning proposals, payment clarification and ERPNext handoff    |         400–560 |             €20,000–€28,000 |
-| **Total** | **Modules 1–5**                                                                                           | **1,300–1,900** |         **€65,000–€95,000** |
+| Module    | Scope                                                                                                     |      Team hours | Budget at USD $20/h |
+| --------- | --------------------------------------------------------------------------------------------------------- | --------------: | ------------------: |
+| 1         | Existing payroll exporter: approximately 11 specified defects, golden-file regression and release support |          80–120 |       $1,600–$2,400 |
+| 2         | Shared model, ownership contracts, migrations, legacy mappings and access model                           |         200–300 |       $4,000–$6,000 |
+| 3         | Quote/order lifecycle, positions, revisions, conversion and agreed documents                              |         260–400 |       $5,200–$8,000 |
+| 4         | Dispatch/planning, tours, assignment conflicts, job completion, extra work and photos                     |         360–520 |      $7,200–$10,400 |
+| 5         | Tour billing preparation, invoice review, dunning proposals, payment clarification and ERPNext handoff    |         400–560 |      $8,000–$11,200 |
+| **Total** | **Modules 1–5**                                                                                           | **1,300–1,900** | **$26,000–$38,000** |
 
-For another agreed blended rate `R`, multiply each hour bound by `R`. For example, the total is
-€52,000–€76,000 at €40/h and €78,000–€114,000 at €60/h. These are price scenarios, not alternative
-agency offers.
+All prices above are in USD. The rate is the confirmed budget basis; the effort ranges remain
+preliminary until the detailed specifications and existing application are reviewed. Individual
+staffing, availability and any distinct role rates still require confirmation.
 
 ## Six-month capacity and parallel work
 

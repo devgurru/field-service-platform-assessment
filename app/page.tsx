@@ -4,6 +4,7 @@ import { useState } from "react";
 import { buildPayrollCsv, euro } from "../supabase/functions/_shared/payroll";
 import {
   canExportPayroll,
+  estimateRateUsd,
   fixtureMonth,
   moduleEstimates,
   payrollFixture,
@@ -13,6 +14,13 @@ import {
 import { SupabaseExport } from "./supabase-export";
 
 const repo = "https://github.com/devgurru/field-service-platform-assessment";
+const usd = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+const totalLow = moduleEstimates.reduce((total, module) => total + module.low, 0);
+const totalHigh = moduleEstimates.reduce((total, module) => total + module.high, 0);
 const labels: Record<Role, string> = {
   payroll: "Payroll officer",
   admin: "Administrator",
@@ -371,6 +379,12 @@ export default function Page() {
                       Engineering hours include architecture, implementation, review and
                       verification.
                     </p>
+                    <p>
+                      USD {usd.format(estimateRateUsd)}/hour ·{" "}
+                      {usd.format(totalLow * estimateRateUsd)}–{usd.format(
+                        totalHigh * estimateRateUsd,
+                      )} total planning budget.
+                    </p>
                   </div>
                   <span className="tag">1,300–1,900 H</span>
                 </div>
@@ -381,6 +395,11 @@ export default function Page() {
                       <div className="estimate-name">
                         <strong>{m.name}</strong>
                         <small>{m.lane}</small>
+                        <small>
+                          USD {usd.format(m.low * estimateRateUsd)}–{usd.format(
+                            m.high * estimateRateUsd,
+                          )}
+                        </small>
                       </div>
                       <div className="range-track" aria-hidden="true">
                         <span
